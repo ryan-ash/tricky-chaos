@@ -1,0 +1,52 @@
+body {
+    font-family: 'Arial', sans-serif;
+}
+
+.parallax-container {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.parallax-text h1 {
+    color: #fff;
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+}
+
+.parallax-text p {
+    color: #fff;
+    font-size: 1.5rem;
+}
+
+.projects {
+    margin: 2rem 0;
+}
+
+.project-tile {
+    margin-bottom: 2rem;
+}
+
+.project-tile img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.social-links {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.social-links a {
+    color: #333;
+    font-size: 2rem;
+    margin: 0 1rem;
+}
+
+.social-links a:hover {
+    color: #007bff;
+}
