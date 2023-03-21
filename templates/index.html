@@ -22,12 +22,13 @@
     <!-- Project Tiles -->
     <section class="container projects">
         <div class="row">
-            <!-- Add more project tiles as needed -->
+            {% for project in projects %}
             <div class="col-lg-4 col-md-6 col-sm-12 project-tile">
-                <img src="/static/images/project1.jpg" alt="Project 1">
-                <h3>Project 1</h3>
-                <p>Project 1 description...</p>
+                <img src="{{ project.image }}" alt="{{ project.title }}">
+                <h3>{{ project.title }}</h3>
+                <p>{{ project.description }}</p>
             </div>
+            {% endfor %}
         </div>
     </section>
 
