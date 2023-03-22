@@ -1,0 +1,75 @@
+.vertical-container {
+    display: flex;
+    flex-direction: column;
+}
+
+#top, #bottom, #left, #right {
+    position: fixed;
+    background-repeat: repeat;
+}
+
+#top, #bottom {
+    height: 1px;
+    width: 100%;
+    left: 0;
+    white-space: nowrap;
+}
+
+#left, #right {
+    height: 100%;
+    width: 1px;
+    top: 0;
+}
+
+#top {
+    top: 0;
+}
+
+#bottom {
+    bottom: 30px;
+}
+
+#left {
+    left: 20px;
+}
+
+#right {
+    right: 20px;
+}
+
+.horizontal {
+    width: 20px;
+    height: 1px;
+}
+
+.vertical {
+    width: 1px;
+    height: 20px;
+}
+
+.line {
+    display: inline-block;
+    background-color: #555;
+    transition: transform 0.1s ease-out, opacity 0.1s ease-out;
+    opacity: 0.5;
+}
+
+.line.current-cursor {
+    transform: rotate(90deg);
+    opacity: 1;
+}
+
+.line.current-cursor-adjacent {
+    transform: rotate(45deg);
+    opacity: 0.75;
+}
+
+.line.current-cursor-adjacent-two {
+    transform: rotate(22deg);
+    opacity: 0.66;
+}
+
+.line.current-cursor-adjacent-three {
+    transform: rotate(13deg);
+    opacity: 0.55;
+}
