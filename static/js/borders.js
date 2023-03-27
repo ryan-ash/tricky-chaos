@@ -1,4 +1,5 @@
-const lineSize = 20;
+const lineSize = 15;
+const numAdjacentParts = 5;
 
 let horizontalLinePartsTop = [];
 let horizontalLinePartsBottom = [];
@@ -63,22 +64,49 @@ function createCursorLines() {
 }
 
 function createAdjacentStyles(numAdjacentParts) {
-    const styles = [];
+    const topStyles = [];
+    const bottomStyles = [];
+    const leftStyles = [];
+    const rightStyles = [];
     const minOpacity = 0.5;
 
     for (let i = 0; i < numAdjacentParts; i++) {
         const rotation = 90 - 90 * (i + 1) / (numAdjacentParts + 1);
         const opacity = minOpacity + ((1 - minOpacity) * (i + 1) / (numAdjacentParts + 1));
-        const backgroundColor = Math.floor(85 + (170 * (numAdjacentParts - i)) / (numAdjacentParts + 1));
+        const backgroundColor = Math.floor(45 + (120 * (numAdjacentParts - i)) / (numAdjacentParts + 1));
+        const offset = Math.floor((numAdjacentParts - i) / (numAdjacentParts + 1) * 18);
 
-        styles.push({
-            transform: `rotate(${rotation}deg)`,
+        topStyleObject = {
             opacity: opacity,
             backgroundColor: `rgb(${backgroundColor}, ${backgroundColor}, ${backgroundColor})`,
-        });
+            transform: `translateY(${offset}px) rotate(${rotation}deg)`
+        };
+
+        bottomStyleObject = {
+            opacity: opacity,
+            backgroundColor: `rgb(${backgroundColor}, ${backgroundColor}, ${backgroundColor})`,
+            transform: `translateY(-${offset}px) rotate(${rotation}deg)`
+        };
+
+        leftStyleObject = {
+            opacity: opacity,
+            backgroundColor: `rgb(${backgroundColor}, ${backgroundColor}, ${backgroundColor})`,
+            transform: `translateX(${offset}px) rotate(${rotation}deg)`
+        };
+
+        rightStyleObject = {
+            opacity: opacity,
+            backgroundColor: `rgb(${backgroundColor}, ${backgroundColor}, ${backgroundColor})`,
+            transform: `translateX(-${offset}px) rotate(${rotation}deg)`
+        };
+
+        topStyles.push(topStyleObject);
+        bottomStyles.push(bottomStyleObject);
+        leftStyles.push(leftStyleObject);
+        rightStyles.push(rightStyleObject);
     }
 
-    return styles;
+    return [topStyles, bottomStyles, leftStyles, rightStyles];
 }
 
 
@@ -109,7 +137,7 @@ function updateCursorLines(x, y, adjacentStyles) {
             $(this).removeClass("current-cursor");
             const dataIndex = $(this).hasClass("horizontal") ? "x" : "y";
 
-            for (let i = 0; i < adjacentStyles.length; i++) {
+            for (let i = 0; i < adjacentStyles[0].length; i++) {
                 const lowerIndex = parseInt($(this).data(dataIndex)) - (i + 1);
                 const higherIndex = parseInt($(this).data(dataIndex)) + (i + 1);
 
@@ -125,16 +153,16 @@ function updateCursorLines(x, y, adjacentStyles) {
         });
 
         if (horizontalLinePartsTop[horizontalIndex]) {
-            markItem(horizontalLinePartsTop, horizontalIndex, adjacentStyles);
+            markItem(horizontalLinePartsTop, horizontalIndex, adjacentStyles[0]);
         }
         if (horizontalLinePartsBottom[horizontalIndex]) {
-            markItem(horizontalLinePartsBottom, horizontalIndex, adjacentStyles);
+            markItem(horizontalLinePartsBottom, horizontalIndex, adjacentStyles[1]);
         }
         if (verticalLinePartsLeft[verticalIndex]) {
-            markItem(verticalLinePartsLeft, verticalIndex, adjacentStyles);
+            markItem(verticalLinePartsLeft, verticalIndex, adjacentStyles[2]);
         }
         if (verticalLinePartsRight[verticalIndex]) {
-            markItem(verticalLinePartsRight, verticalIndex, adjacentStyles);
+            markItem(verticalLinePartsRight, verticalIndex, adjacentStyles[3]);
         }
 
         prevHorizontalIndex = horizontalIndex;
@@ -184,10 +212,10 @@ function updateDashedLines(x, y) {
     }
 
     const borderPositions = [
-        { x: prevHorizontalIndex * lineSize + 10, y: 0 },
-        { x: prevHorizontalIndex * lineSize + 10, y: window.innerHeight },
-        { x: 0, y: prevVerticalIndex * lineSize + 3 },
-        { x: window.innerWidth, y: prevVerticalIndex * lineSize + 3 },
+        { x: prevHorizontalIndex * lineSize + 8, y: 0 },
+        { x: prevHorizontalIndex * lineSize + 8, y: window.innerHeight },
+        { x: 0, y: prevVerticalIndex * lineSize + 7 },
+        { x: window.innerWidth, y: prevVerticalIndex * lineSize + 7 },
     ];
 
     for (let i = 0; i < dashedLines.length; i++) {
@@ -226,7 +254,6 @@ $(document).ready(function () {
     animateDashedLines();
     document.body.style.cursor = "none";
 
-    const numAdjacentParts = 5;
     const adjacentStyles = createAdjacentStyles(numAdjacentParts);
 
     $(window).resize(function () {
