@@ -11,6 +11,8 @@ let prevVerticalIndex = null;
 let cursorLines = []
 let dashedLines = [];
 
+let isHoveringOverLink = false;
+
 function createLineParts() {
     const windowWidth = window.innerWidth;
     const windowHeight = window.innerHeight;
@@ -86,12 +88,13 @@ function markItem(list, startingIndex, adjacentStyles) {
     for (let i = 0; i < adjacentStyles.length; i++) {
         const lowerIndex = startingIndex - (i + 1);
         const higherIndex = startingIndex + (i + 1);
+        let selectedStyle = adjacentStyles[i];
 
         if (list[lowerIndex]) {
-            list[lowerIndex].css(adjacentStyles[i]);
+            list[lowerIndex].css(selectedStyle);
         }
         if (list[higherIndex]) {
-            list[higherIndex].css(adjacentStyles[i]);
+            list[higherIndex].css(selectedStyle);
         }
     }
 }
@@ -170,13 +173,14 @@ function updateDashedLines(x, y) {
         const normalizedDist = 1 - normalize(dist, 0, maxDist);
         const minOpacity = 0.2;
         const maxOpacity = 0.8;
-        const opacity = minOpacity + normalizedDist * (maxOpacity - minOpacity);
+        const linkOpacity = isHoveringOverLink ? 0.1 : 0;
+        const opacity = minOpacity + normalizedDist * (maxOpacity - minOpacity) + linkOpacity;
 
         lines[i].setAttribute("x1", corner.x);
         lines[i].setAttribute("y1", corner.y);
         lines[i].setAttribute("x2", x);
         lines[i].setAttribute("y2", y);
-        lines[i].style.stroke = `rgba(0, 100, 100, ${opacity})`;
+        lines[i].style.stroke = isHoveringOverLink ? `rgba(100, 222, 200, ${opacity})` : `rgba(0, 100, 100, ${opacity})`;
     }
 
     const borderPositions = [
@@ -184,7 +188,7 @@ function updateDashedLines(x, y) {
         { x: prevHorizontalIndex * lineSize + 10, y: window.innerHeight },
         { x: 0, y: prevVerticalIndex * lineSize + 3 },
         { x: window.innerWidth, y: prevVerticalIndex * lineSize + 3 },
-    ];        
+    ];
 
     for (let i = 0; i < dashedLines.length; i++) {
         dashedLines[i].setAttribute("x1", borderPositions[i].x);
@@ -219,7 +223,6 @@ $(document).ready(function () {
     createLineParts();
     createCursorLines();
     createDashedLines();
-    createDashedLines();
     animateDashedLines();
     document.body.style.cursor = "none";
 
@@ -236,4 +239,12 @@ $(document).ready(function () {
         const y = e.clientY;
         updateLines(x, y, adjacentStyles);
     });
+});
+
+$('body').on('mouseenter', 'a', function() {
+    isHoveringOverLink = true;
+});
+
+$('body').on('mouseleave', 'a', function() {
+    isHoveringOverLink = false;
 });

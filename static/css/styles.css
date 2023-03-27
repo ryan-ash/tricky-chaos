@@ -19,6 +19,10 @@ h1, h2, h3 {
     font-family: 'Orbitron', sans-serif;
 }
 
+a {
+    cursor: none;
+}
+
 .main-content {
     position: relative;
     padding: 20px;
