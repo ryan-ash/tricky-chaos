@@ -60,21 +60,3 @@
     opacity: 1;
     background-color: #bee;
 }
-
-.line.current-cursor-adjacent {
-    transform: rotate(45deg);
-    opacity: 0.75;
-    background-color: #9bb;
-}
-
-.line.current-cursor-adjacent-two {
-    transform: rotate(22deg);
-    opacity: 0.66;
-    background-color: #788;
-}
-
-.line.current-cursor-adjacent-three {
-    transform: rotate(13deg);
-    opacity: 0.55;
-    text-shadow: 0 0 10px rgba(55, 55, 55, 0.05);
-}
