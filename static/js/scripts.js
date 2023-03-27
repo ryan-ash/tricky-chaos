@@ -19,14 +19,20 @@ particlesJS('particles-js', {
         }
     },
     interactivity: {
-        detect_on: 'canvas',
+        detect_on: "canvas",
         events: {
-            onhover: { enable: false },
+            onhover: { enable: true, mode: "repulse" },
             onclick: { enable: false },
-            resize: true
-        }
+            resize: true,
+        },
+        modes: {
+            repulse: {
+                distance: 100, // Distance at which the particles will be repelled
+                duration: 0.4, // The higher the value, the more "lazily" the particles will react
+            },
+        },
     },
-    retina_detect: true
+    retina_detect: true,
 });
   
   
