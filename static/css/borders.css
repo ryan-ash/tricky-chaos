@@ -6,6 +6,7 @@
 #top, #bottom, #left, #right {
     position: fixed;
     background-repeat: repeat;
+    transition: top 0.1s ease-out, bottom 0.1s ease-out, left 0.1s ease-out, right 0.1s ease-out;
 }
 
 #top, #bottom {
