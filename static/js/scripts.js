@@ -47,8 +47,8 @@ function positionSocialLinksInArc(radius, startAngle, endAngle) {
 
         $(this).css({
             position: 'absolute',
-            right: `${50 - x}px`,
-            top: `${50 - y}px`,
+            right: `${35 - x}px`,
+            top: `${35 - y}px`,
             transform: 'translate(50%, -50%)'
         });
     });
