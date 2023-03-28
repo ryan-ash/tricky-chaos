@@ -34,6 +34,25 @@ particlesJS('particles-js', {
     },
     retina_detect: true,
 });
+
+function positionSocialLinksInArc(radius, startAngle, endAngle) {
+    const angleRange = endAngle - startAngle;
+    const numberOfLinks = $('.social-links a').length;
+    const angleStep = angleRange / (numberOfLinks - 1);
+
+    $('.social-links a').each(function (index) {
+        const angle = startAngle + angleStep * index;
+        const x = radius * Math.cos(angle * (Math.PI / 180));
+        const y = radius * Math.sin(angle * (Math.PI / 180));
+
+        $(this).css({
+            position: 'absolute',
+            right: `${50 - x}px`,
+            top: `${50 - y}px`,
+            transform: 'translate(50%, -50%)'
+        });
+    });
+}
   
   
 // Parallax effect
@@ -46,4 +65,6 @@ $(document).ready(function () {
             $(this).css('transform', 'translateY(' + scrollPos * parallaxSpeed + 'px)');
         });
     });
+
+    positionSocialLinksInArc(250, 180, 270);
 });

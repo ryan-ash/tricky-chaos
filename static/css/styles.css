@@ -21,6 +21,7 @@ h1, h2, h3 {
 
 a {
     cursor: none;
+    transition: text-shadow 0.1s ease-out, opacity 0.1s ease-out;
 }
 
 .main-content {
@@ -65,12 +66,26 @@ a {
 
 .social-links {
     position: fixed;
-    bottom: 25px;
-    right: 40px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
     z-index: 3;
+}
+
+.social-links a {
+    opacity: 0.5;
+    text-shadow: 0 0 1px #00ff00;
+}
+
+.social-links a:hover {
+    opacity: 0.9;
+    text-shadow: 0 0 10px #00ff00;
+}
+
+.social-links a i {
+    font-size: 2em;
+    color: #55ff55;
 }
 
 #particles-js {
@@ -95,7 +110,6 @@ a {
     position: relative;
     margin-bottom: 30px;
     overflow: hidden;
-    /* Add your desired styles for big panels and big fonts */
 }
 
 .project-tile img {
@@ -106,5 +120,3 @@ a {
 .project-tile:hover img {
     transform: scale(1.1);
 }
-
-/* Add styles for random cosmetic rectangular blocks at the edges */
