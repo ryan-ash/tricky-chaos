@@ -14,6 +14,14 @@ let dashedLines = [];
 
 let isHoveringOverLink = false;
 
+let lineScreenOffset = 20;
+let lineTopOffset = 0;
+let lineBottomOffset = 30;
+
+let lineOffsetMax = 20;
+
+let corners = [];
+
 function createLineParts() {
     const windowWidth = window.innerWidth;
     const windowHeight = window.innerHeight;
@@ -185,14 +193,6 @@ function createDashedLines() {
 
 function updateDashedLines(x, y) {
     const lines = cursorLines.children;
-    const padding_x = 20;
-    const padding_y = 15;
-    const corners = [
-        { x: padding_x, y: padding_y },
-        { x: window.innerWidth - padding_x, y: padding_y },
-        { x: padding_x, y: window.innerHeight - padding_y },
-        { x: window.innerWidth - padding_x, y: window.innerHeight - padding_y },
-    ];
 
     for (let i = 0; i < corners.length; i++) {
         const corner = corners[i];
@@ -242,8 +242,38 @@ function normalize(value, min, max) {
     return (value - min) / (max - min);
 }
 
+function updateLineOffsets(x, y) {
+    const windowWidth = window.innerWidth;
+    const windowHeight = window.innerHeight;
+
+    const offsetX = Math.floor(lineOffsetMax * x / windowWidth);
+    const offsetXInverted = Math.floor(lineOffsetMax * (1 - x / windowWidth));
+    const offsetY = Math.floor(lineOffsetMax * y / windowHeight);
+    const offsetYInverted = Math.floor(lineOffsetMax * (1 - y / windowHeight));
+
+    const offsetLeft = lineScreenOffset + offsetX;
+    const offsetRight = lineScreenOffset + offsetXInverted;
+    const offsetTop = lineTopOffset + offsetY;
+    const offsetBottom = lineBottomOffset + offsetYInverted;
+    const padding_y = 15;
+
+
+    corners = [
+        { x: offsetLeft, y: offsetTop + padding_y },
+        { x: window.innerWidth - offsetRight, y: offsetTop + padding_y },
+        { x: offsetLeft, y: window.innerHeight - offsetBottom + padding_y },
+        { x: window.innerWidth - offsetRight, y: window.innerHeight - offsetBottom + padding_y },
+    ];
+
+    $('#left').css('left', `${offsetLeft}px`);
+    $('#right').css('right', `${offsetRight}px`);
+    $('#top').css('top', `${offsetTop}px`);
+    $('#bottom').css('bottom', `${offsetBottom}px`);
+}
+
 function updateLines(x, y, adjacentStyles) {
     updateCursorLines(x, y, adjacentStyles);
+    updateLineOffsets(x, y);
     updateDashedLines(x, y);
 }
 
