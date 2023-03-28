@@ -88,6 +88,7 @@ a {
 .social-links a i {
     font-size: 1.5em;
     color: #55ff55;
+    transform: rotate(-45deg);
 }
 
 #particles-js {

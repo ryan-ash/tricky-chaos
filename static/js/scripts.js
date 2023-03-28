@@ -49,12 +49,12 @@ function positionSocialLinksInArc(radius, startAngle, endAngle) {
             position: 'absolute',
             right: `${35 - x}px`,
             top: `${35 - y}px`,
-            transform: 'translate(50%, -50%)'
+            transform: 'translate(50%, -50%) rotate(45deg)'
         });
     });
 }
-  
-  
+
+
 // Parallax effect
 $(document).ready(function () {
     $(window).scroll(function () {
