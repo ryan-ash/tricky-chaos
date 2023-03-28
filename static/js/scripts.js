@@ -66,5 +66,5 @@ $(document).ready(function () {
         });
     });
 
-    positionSocialLinksInArc(250, 180, 270);
+    positionSocialLinksInArc(300, 180, 270);
 });
