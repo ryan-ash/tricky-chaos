@@ -13,6 +13,7 @@ let cursorLines = []
 let dashedLines = [];
 
 let isHoveringOverLink = false;
+let linkLocation = {x: 0, y: 0};
 
 let lineScreenOffset = 20;
 let lineTopOffset = 0;
@@ -277,6 +278,35 @@ function updateLines(x, y, adjacentStyles) {
     updateDashedLines(x, y);
 }
 
+function recordLinkLocation(element) {
+    const rect = element.getBoundingClientRect();
+    linkLocation.x = rect.left + (rect.width / 2);
+    linkLocation.y = rect.top + (rect.height / 2);
+}
+
+function showDashedCircle() {
+    const circle = $('.rotating-dashed-circle');
+    const circleSize = 66; // You can adjust the size of the circle
+
+    if (isHoveringOverLink) {
+        circle.css({
+            'width': `${circleSize}px`,
+            'height': `${circleSize}px`,
+            'left': `${linkLocation.x - circleSize / 2 + 1}px`,
+            'top': `${linkLocation.y - circleSize / 2 + 1}px`,
+            'opacity': 1
+        });
+    } else {
+        circle.css('opacity', 0);
+    }
+}
+
+// Call showDashedCircle on every frame
+function animate() {
+    showDashedCircle();
+    requestAnimationFrame(animate);
+}
+
 $(document).ready(function () {
     createLineParts();
     createCursorLines();
@@ -296,10 +326,13 @@ $(document).ready(function () {
         const y = e.clientY;
         updateLines(x, y, adjacentStyles);
     });
+
+    animate();
 });
 
 $('body').on('mouseenter', 'a', function() {
     isHoveringOverLink = true;
+    recordLinkLocation(this);
 });
 
 $('body').on('mouseleave', 'a', function() {
