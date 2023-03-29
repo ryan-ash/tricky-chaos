@@ -14,6 +14,7 @@ let dashedLines = [];
 
 let isHoveringOverLink = false;
 let linkLocation = {x: 0, y: 0};
+const circleSize = 66;
 
 let lineScreenOffset = 20;
 let lineTopOffset = 0;
@@ -179,6 +180,34 @@ function updateCursorLines(x, y, adjacentStyles) {
     }
 }
 
+function getIntersectionPoints(x1, y1, x2, y2, cx, cy, r) {
+    const dx = x2 - x1;
+    const dy = y2 - y1;
+    const a = dx * dx + dy * dy;
+    const b = 2 * (dx * (x1 - cx) + dy * (y1 - cy));
+    const c = (x1 - cx) * (x1 - cx) + (y1 - cy) * (y1 - cy) - r * r;
+    const det = b * b - 4 * a * c;
+
+    if (det < 0) {
+        return null;
+    } else {
+        const t1 = (-b - Math.sqrt(det)) / (2 * a);
+        const t2 = (-b + Math.sqrt(det)) / (2 * a);
+
+        const intersection1 = {
+            x: x1 + t1 * dx,
+            y: y1 + t1 * dy,
+        };
+
+        const intersection2 = {
+            x: x1 + t2 * dx,
+            y: y1 + t2 * dy,
+        };
+
+        return [intersection1, intersection2];
+    }
+}
+
 function createDashedLines() {
     for (let i = 0; i < 4; i++) {
         const dashedLine = document.createElementNS("http://www.w3.org/2000/svg", "line");
@@ -194,9 +223,27 @@ function createDashedLines() {
 
 function updateDashedLines(x, y) {
     const lines = cursorLines.children;
+    const circleRadius = circleSize / 2;
 
     for (let i = 0; i < corners.length; i++) {
         const corner = corners[i];
+
+        const intersectionPoints = getIntersectionPoints(corner.x, corner.y, x, y, linkLocation.x, linkLocation.y, circleRadius);
+        if (isHoveringOverLink) {
+            if (intersectionPoints) {
+                const intersection = intersectionPoints[0]; // Choose the first intersection point
+
+                lines[i].setAttribute("x2", intersection.x);
+                lines[i].setAttribute("y2", intersection.y);
+            } else {
+                lines[i].setAttribute("x2", x);
+                lines[i].setAttribute("y2", y);    
+            }
+        } else {
+            lines[i].setAttribute("x2", x);
+            lines[i].setAttribute("y2", y);
+        }
+
         const dist = distance(x, y, corner.x, corner.y);
         const maxDist = distance(0, 0, window.innerWidth, window.innerHeight);
         const normalizedDist = 1 - normalize(dist, 0, maxDist);
@@ -207,8 +254,6 @@ function updateDashedLines(x, y) {
 
         lines[i].setAttribute("x1", corner.x);
         lines[i].setAttribute("y1", corner.y);
-        lines[i].setAttribute("x2", x);
-        lines[i].setAttribute("y2", y);
         lines[i].style.stroke = isHoveringOverLink ? `rgba(100, 222, 200, ${opacity})` : `rgba(0, 100, 100, ${opacity})`;
     }
 
@@ -258,7 +303,6 @@ function updateLineOffsets(x, y) {
     const offsetBottom = lineBottomOffset + offsetYInverted;
     const padding_y = 15;
 
-
     corners = [
         { x: offsetLeft, y: offsetTop + padding_y },
         { x: window.innerWidth - offsetRight, y: offsetTop + padding_y },
@@ -286,7 +330,6 @@ function recordLinkLocation(element) {
 
 function showDashedCircle() {
     const circle = $('.rotating-dashed-circle');
-    const circleSize = 66; // You can adjust the size of the circle
 
     if (isHoveringOverLink) {
         circle.css({
