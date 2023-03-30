@@ -288,6 +288,16 @@ function normalize(value, min, max) {
     return (value - min) / (max - min);
 }
 
+function updateMainTitlePosition(top, right) {
+    const titleOffset = 20;
+    const finalTop = top/2 + titleOffset;
+    const finalRight = right/2 + titleOffset;
+    $(".main-content").css({
+        "top": finalTop + "px",
+        "right": finalRight + "px"
+    });
+}
+
 function updateLineOffsets(x, y) {
     const windowWidth = window.innerWidth;
     const windowHeight = window.innerHeight;
@@ -309,6 +319,8 @@ function updateLineOffsets(x, y) {
         { x: offsetLeft, y: window.innerHeight - offsetBottom + padding_y },
         { x: window.innerWidth - offsetRight, y: window.innerHeight - offsetBottom + padding_y },
     ];
+
+    updateMainTitlePosition(offsetTop + padding_y, offsetRight);
 
     $('#left').css('left', `${offsetLeft}px`);
     $('#right').css('right', `${offsetRight}px`);
