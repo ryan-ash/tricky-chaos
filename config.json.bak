@@ -1,4 +1,7 @@
 {
+    "SECRET_KEY": "your-secret-key",
     "SQLALCHEMY_DATABASE_URI": "sqlite:///projects.db",
-    "SQLALCHEMY_TRACK_MODIFICATIONS": false
+    "SQLALCHEMY_TRACK_MODIFICATIONS": false,
+    "ADMIN_USERNAME": "admin",
+    "ADMIN_PASSWORD": "supersecurepassword"
 }
