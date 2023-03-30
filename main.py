@@ -4,7 +4,8 @@ from flask_admin.contrib.sqla import ModelView
 from flask_httpauth import HTTPBasicAuth
 from flask_migrate import Migrate
 from config import config
-from database import db, Project, Link
+from database import db, Project
+from wtforms import TextAreaField
 
 app = Flask(__name__)
 app.config.from_mapping(config)
@@ -31,6 +32,10 @@ class AuthenticatedModelView(ModelView):
 
     def inaccessible_callback(self, name, **kwargs):
         return auth.login_required(lambda: None)()
+    
+    form_overrides = {
+        'links': TextAreaField
+    }
 
 class AuthenticatedAdminIndexView(AdminIndexView):
     def is_accessible(self):
@@ -46,7 +51,6 @@ class AuthenticatedAdminIndexView(AdminIndexView):
 
 admin = Admin(app, name='Chaotic Sandbox', template_mode='bootstrap3', index_view=AuthenticatedAdminIndexView())
 admin.add_view(AuthenticatedModelView(Project, db.session))
-admin.add_view(AuthenticatedModelView(Link, db.session))
 
 @app.route('/')
 def home():
