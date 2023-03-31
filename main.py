@@ -4,7 +4,7 @@ from flask_admin.contrib.sqla import ModelView
 from flask_httpauth import HTTPBasicAuth
 from flask_migrate import Migrate
 from config import config
-from database import db, Project
+from database import db, Project, Category
 from wtforms import TextAreaField
 
 app = Flask(__name__)
@@ -51,6 +51,7 @@ class AuthenticatedAdminIndexView(AdminIndexView):
 
 admin = Admin(app, name='Chaotic Sandbox', template_mode='bootstrap3', index_view=AuthenticatedAdminIndexView())
 admin.add_view(AuthenticatedModelView(Project, db.session))
+admin.add_view(AuthenticatedModelView(Category, db.session))
 
 @app.route('/')
 def home():
