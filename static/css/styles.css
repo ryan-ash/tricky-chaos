@@ -106,8 +106,11 @@ a {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    margin: 10px 20px;
-    padding: 30px;
+    padding: 10px 40px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: calc(100% - 40px);
 }
 
 .project-tile {

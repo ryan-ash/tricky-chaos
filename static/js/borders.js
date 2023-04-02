@@ -288,14 +288,22 @@ function normalize(value, min, max) {
     return (value - min) / (max - min);
 }
 
-function updateMainTitlePosition(top, right) {
-    const titleOffset = 20;
-    const finalTop = top/2 + titleOffset;
-    const finalRight = right/2 + titleOffset;
-    $(".main-content").css({
+function updateObjectPosition(name, top, right) {
+    const borderOffset = 20;
+    const finalTop = top/2 + borderOffset;
+    const finalRight = right/2 + borderOffset;
+    $("." + name).css({
         "top": finalTop + "px",
         "right": finalRight + "px"
     });
+}
+
+function updateMainTitlePosition(top, right) {
+    updateObjectPosition("main-content", top, right);
+}
+
+function updateProjectsPosition(top, right) {
+    updateObjectPosition("projects", top, right);
 }
 
 function updateLineOffsets(x, y) {
@@ -321,6 +329,7 @@ function updateLineOffsets(x, y) {
     ];
 
     updateMainTitlePosition(offsetTop + padding_y, offsetRight);
+    updateProjectsPosition(offsetTop + padding_y, offsetRight);
 
     $('#left').css('left', `${offsetLeft}px`);
     $('#right').css('right', `${offsetRight}px`);
