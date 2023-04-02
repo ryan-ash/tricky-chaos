@@ -14,7 +14,7 @@ class Project(db.Model):
     last_updated_at = db.Column(db.DateTime, nullable=True)
     version = db.Column(db.String(50), nullable=True)
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'), nullable=True)
-    category_id = db.Column(db.Integer, db.ForeignKey('category.id', name='fk_project_category_id'), nullable=True)  # Update this line
+    category = db.relationship('Category', backref='projects')
 
 class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True)
