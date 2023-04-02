@@ -11,7 +11,6 @@ from wtforms_sqlalchemy.fields import QuerySelectField
 
 app = Flask(__name__)
 app.config.from_mapping(config)
-
 db.init_app(app)
 migrate = Migrate(app, db)
 auth = HTTPBasicAuth()
@@ -49,6 +48,7 @@ class AuthenticatedModelView(ModelView):
             'blank_text': 'None',
         }
     }
+
     form_extra_fields = {
         'category': QuerySelectField(
             'Category',
@@ -71,6 +71,7 @@ class AuthenticatedAdminIndexView(AdminIndexView):
 
     def inaccessible_callback(self, name, **kwargs):
         return auth.login_required(lambda: None)()
+
 
 admin = Admin(app, name='Chaotic Sandbox', template_mode='bootstrap3', index_view=AuthenticatedAdminIndexView())
 admin.add_view(AuthenticatedModelView(Project, db.session))
