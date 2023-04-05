@@ -14,6 +14,16 @@
     <script src="{{ url_for('static', filename='js/borders.js') }}" defer></script>
     <script src="{{ url_for('static', filename='js/favicon.js') }}" defer></script>
     <script src="{{ url_for('static', filename='js/scripts.js') }}" defer></script>
+    <script>
+        window.projectsData = [{% for project in projects %} {
+            id: {{ project.id }},
+            title: "{{ project.title }}",
+            description: "{{ project.description }}",
+            image: "{{ project.image }}",
+            released_at: "{{ project.released_at }}"
+        } {% if not loop.last %}, {% endif %}{% endfor %}];
+    </script>
+    
 </head>
 <body>
     <div id="particles-js"></div>
@@ -33,17 +43,51 @@
         </div>
     </section>
 
-    <!-- Project Tiles -->
-    <section class="projects">
+    <!-- Mode Switch and Sorting Buttons -->
+    <section class="view-options">
+        <div class="button-container">
+            <a id="all-projects-btn" class="btn-icon">
+                <i class="fas fa-th"></i>
+            </a>
+            <a id="by-category-btn" class="btn-icon">
+                <i class="fas fa-th-list"></i>
+            </a>
+            <a id="sort-date" class="btn-icon">
+                <i class="fas fa-sort-numeric-down"></i>
+            </a>
+            <a id="sort-name" class="btn-icon">
+                <i class="fas fa-sort-alpha-down"></i>
+            </a>
+        </div>        
+    </section>
+
+    <!-- Project Tiles - All Projects -->
+    <section id="projects-all" class="projects">
         <div class="row">
             {% for project in projects %}
             <div class="col-lg-4 col-md-6 col-sm-12 project-tile">
                 <img src="{{ project.image }}" alt="{{ project.title }}" data-speed="0.1">
-                <h3>{{ project.title }}</h3>
+                <h3>{{ project.title }} <span class="category-version">({{ project.category.name }} / {{ project.version }})</span></h3>
                 <p>{{ project.description }}</p>
             </div>
             {% endfor %}
         </div>
+    </section>
+
+    <!-- Project Tiles - Projects by Category -->
+    <section id="projects-by-category" class="projects hidden">
+        {% for category_name, projects in projects_by_category.items() %}
+            <div class="category">
+                <h2>{{ category_name }}</h2>
+                <div class="projects">
+                    {% for project in projects %}
+                        <div class="project-details">
+                            <h3>{{ project.title }} <span class="category-version">({{ project.version }})</span></h3>
+                        </div>                    
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
     </section>
 
     <div id="top"></div>

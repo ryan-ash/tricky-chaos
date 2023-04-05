@@ -303,7 +303,14 @@ function updateMainTitlePosition(top, right) {
 }
 
 function updateProjectsPosition(top, right) {
+    top += 60; // offset for buttons
     updateObjectPosition("projects", top, right);
+}
+
+function updateProjectButtonsPosition(top, right) {
+    top -= 60; // offset for buttons
+    right -= 80; // offset for buttons
+    updateObjectPosition("button-container", top, right);
 }
 
 function updateLineOffsets(x, y) {
@@ -328,8 +335,12 @@ function updateLineOffsets(x, y) {
         { x: window.innerWidth - offsetRight, y: window.innerHeight - offsetBottom + padding_y },
     ];
 
-    updateMainTitlePosition(offsetTop + padding_y, offsetRight);
-    updateProjectsPosition(offsetTop + padding_y, offsetRight);
+    const top = offsetTop + padding_y;
+    const right = offsetRight;
+
+    updateMainTitlePosition(top, right);
+    updateProjectsPosition(top, right);
+    updateProjectButtonsPosition(top, right);
 
     $('#left').css('left', `${offsetLeft}px`);
     $('#right').css('right', `${offsetRight}px`);
@@ -394,11 +405,11 @@ $(document).ready(function () {
     animate();
 });
 
-$('body').on('mouseenter', 'a', function() {
+$('body').on('mouseenter', 'a, .btn-icon', function () {
     isHoveringOverLink = true;
     recordLinkLocation(this);
 });
 
-$('body').on('mouseleave', 'a', function() {
+$('body').on('mouseleave', 'a, .btn-icon', function () {
     isHoveringOverLink = false;
 });

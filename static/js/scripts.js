@@ -54,8 +54,52 @@ function positionSocialLinksInArc(radius, startAngle, endAngle) {
     });
 }
 
+// Show All Projects
+function showAllProjects() {
+    $('#projects-all').removeClass('hidden');
+    $('#projects-by-category').addClass('hidden');
+}
 
-// Parallax effect
+// Show Projects by Category
+function showProjectsByCategory() {
+    $('#projects-all').addClass('hidden');
+    $('#projects-by-category').removeClass('hidden');
+}
+
+// Sort Projects
+function sortProjects(sortFunction) {
+    // Fetch projects data and sort them
+    let sortedProjects = JSON.parse(JSON.stringify(window.projectsData));
+    sortedProjects.sort(sortFunction);
+
+    // Render sorted projects
+    renderProjects(sortedProjects);
+}
+
+function sortByDate(a, b) {
+    return new Date(a.released_at) - new Date(b.released_at);
+}
+
+function sortByName(a, b) {
+    return a.title.localeCompare(b.title);
+}
+
+function renderProjects(projects) {
+    const allProjectsContainer = $("#projects-all .row");
+    allProjectsContainer.empty();
+
+    projects.forEach((project) => {
+        const projectTile = `
+            <div class="col-lg-4 col-md-6 col-sm-12 project-tile">
+                <img src="${project.image}" alt="${project.title}" data-speed="0.1">
+                <h3>${project.title}</h3>
+                <p>${project.description}</p>
+            </div>`;
+        allProjectsContainer.append(projectTile);
+    });
+}
+
+
 $(document).ready(function () {
     $(window).scroll(function () {
         let scrollPos = $(this).scrollTop();
@@ -67,4 +111,22 @@ $(document).ready(function () {
     });
 
     positionSocialLinksInArc(300, 180, 270);
+
+    // Event Listeners
+    $('#all-projects-btn').on('click', function(e) {
+        showAllProjects();
+        e.preventDefault();
+    });
+    $('#by-category-btn').on('click', function(e) {
+        showProjectsByCategory();
+        e.preventDefault();
+    });
+    $('#sort-date').on('click', function (e) {
+        sortProjects(sortByDate);
+        e.preventDefault();
+    });
+    $('#sort-name').on('click', function (e) {
+        sortProjects(sortByName);
+        e.preventDefault();
+    });
 });

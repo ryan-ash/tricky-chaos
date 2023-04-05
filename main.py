@@ -80,7 +80,10 @@ admin.add_view(AuthenticatedModelView(Category, db.session))
 @app.route('/')
 def home():
     projects = Project.query.all()
-    return render_template('index.html', projects=projects)
+    categories = Category.query.all()
+    projects_by_category = {category.name: category.projects for category in categories}
+    return render_template('index.html', projects=projects, projects_by_category=projects_by_category)
+
 
 if __name__ == '__main__':
     app.run()
