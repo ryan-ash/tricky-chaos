@@ -3,10 +3,10 @@
     flex-direction: column;
 }
 
-#top, #bottom, #left, #right {
+.line-container {
     position: fixed;
     background-repeat: repeat;
-    transition: top 0.1s ease-out, bottom 0.1s ease-out, left 0.1s ease-out, right 0.1s ease-out;
+    transition: top 0.1s ease-out, bottom 0.1s ease-out, left 0.1s ease-out, right 0.1s ease-out, opacity 0.1s ease-out;
 }
 
 #top, #bottom {

@@ -31,8 +31,6 @@ function createLineParts() {
     const numHorizontalLines = Math.ceil(windowWidth / lineSize);
     const numVerticalLines = Math.ceil(windowHeight / lineSize);
 
-    $('#left, #right').addClass('vertical-container');
-
     for (let i = 0; i < numHorizontalLines; i++) {
         const horizontalLine = $(`<div class="line horizontal" data-x="${i}"></div>`);
         $('#top').append(horizontalLine);
@@ -362,6 +360,7 @@ function recordLinkLocation(element) {
 
 function showDashedCircle() {
     const circle = $('.rotating-dashed-circle');
+    const borders = $('.line-container');
 
     if (isHoveringOverLink) {
         circle.css({
@@ -371,8 +370,10 @@ function showDashedCircle() {
             'top': `${linkLocation.y - circleSize / 2 + 1}px`,
             'opacity': 1
         });
+        borders.css('opacity', 0.33);
     } else {
         circle.css('opacity', 0);
+        borders.css('opacity', 'inherit');
     }
 }
 
