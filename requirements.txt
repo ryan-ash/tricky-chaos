@@ -5,3 +5,4 @@ Flask-Migrate==4.0.4
 Flask-SQLAlchemy==3.0.3
 python-dotenv==0.21.0
 WTForms==3.0.1
+wtforms_sqlalchemy==0.3
