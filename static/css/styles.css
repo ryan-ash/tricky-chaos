@@ -180,6 +180,7 @@ a {
 
 .project-details {
     position: relative;
+    margin-left: 20px;
 }
 
 .category-version {

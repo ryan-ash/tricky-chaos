@@ -79,13 +79,11 @@
         {% for category_name, projects in projects_by_category.items() %}
             <div class="category">
                 <h2>{{ category_name }}</h2>
-                <div class="projects">
-                    {% for project in projects %}
-                        <div class="project-details">
-                            <h3>{{ project.title }} <span class="category-version">({{ project.version }})</span></h3>
-                        </div>                    
-                    {% endfor %}
-                </div>
+                {% for project in projects %}
+                    <div class="project-details">
+                        <h3>{{ project.title }} <span class="category-version">({{ project.version }})</span></h3>
+                    </div>                    
+                {% endfor %}
             </div>
         {% endfor %}
     </section>
