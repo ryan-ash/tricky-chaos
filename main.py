@@ -34,12 +34,27 @@ class AuthenticatedModelView(ModelView):
 
     def inaccessible_callback(self, name, **kwargs):
         return auth.login_required(lambda: None)()
+
+
+class AuthenticatedAdminIndexView(AdminIndexView):
+    def is_accessible(self):
+        if not auth.current_user():
+            return False
+        auth_result = auth.login_required(lambda: True)()
+        if isinstance(auth_result, Response):
+            return False
+        return True
+
+    def inaccessible_callback(self, name, **kwargs):
+        return auth.login_required(lambda: None)()
     
+
+class ProjectModelView(AuthenticatedModelView):
     form_overrides = {
         'links': TextAreaField,
         'category': QuerySelectField,
     }
-    
+
     form_args = {
         'category': {
             'query_factory': lambda: Category.query.all(),
@@ -60,21 +75,8 @@ class AuthenticatedModelView(ModelView):
     }
 
 
-class AuthenticatedAdminIndexView(AdminIndexView):
-    def is_accessible(self):
-        if not auth.current_user():
-            return False
-        auth_result = auth.login_required(lambda: True)()
-        if isinstance(auth_result, Response):
-            return False
-        return True
-
-    def inaccessible_callback(self, name, **kwargs):
-        return auth.login_required(lambda: None)()
-
-
 admin = Admin(app, name='Chaotic Sandbox', template_mode='bootstrap3', index_view=AuthenticatedAdminIndexView())
-admin.add_view(AuthenticatedModelView(Project, db.session))
+admin.add_view(ProjectModelView(Project, db.session))
 admin.add_view(AuthenticatedModelView(Category, db.session))
 
 @app.route('/')
