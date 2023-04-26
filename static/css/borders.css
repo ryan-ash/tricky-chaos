@@ -39,13 +39,13 @@
 }
 
 .horizontal {
-    width: 15px;
+    width: 22px;
     height: 1px;
 }
 
 .vertical {
     width: 1px;
-    height: 15px;
+    height: 22px;
 }
 
 .line {

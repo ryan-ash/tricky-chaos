@@ -1,4 +1,4 @@
-const lineSize = 15;
+const lineSize = 22;
 const numAdjacentParts = 5;
 
 let horizontalLinePartsTop = [];
@@ -9,7 +9,7 @@ let verticalLinePartsRight = [];
 let prevHorizontalIndex = null;
 let prevVerticalIndex = null;
 
-let cursorLines = []
+let cursorLines = [];
 let dashedLines = [];
 
 let isHoveringOverLink = false;
